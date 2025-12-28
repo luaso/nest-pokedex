@@ -5,13 +5,12 @@ import { CreatePokemonDto } from 'src/pokemon/dto/create-pokemon.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon, PokemonDocument } from 'src/pokemon/entities/pokemon.entity';
 import { Model } from 'mongoose';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import { AxiosAdapter } from 'src/common/http-adapters/axios.adapter';
 
 @Injectable()
 export class SeedService {
   constructor(
-    private readonly http: HttpService,
+    private readonly http: AxiosAdapter,
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<PokemonDocument>,
   ) {}
@@ -19,11 +18,10 @@ export class SeedService {
   async executeSEED() {
     await this.pokemonModel.deleteMany({});
 
-    const { data } = await firstValueFrom(
-      this.http.get<PokeResponse>(
-        'https://pokeapi.co/api/v2/pokemon?limit=650',
-      ),
+    const data = await this.http.get<PokeResponse>(
+      'https://pokeapi.co/api/v2/pokemon?limit=650',
     );
+    console.log(data);
 
     const pokemons: CreatePokemonDto[] = data.results.map(({ name, url }) => {
       const segments = url.split('/');
