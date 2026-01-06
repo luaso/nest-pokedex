@@ -1,6 +1,27 @@
+version: '3.8'
+
 services:
+
+
+  pokedexapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    image: pokedex-docker
+    container_name: pokedexapp
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      MONGODB_URL: ${MONGODB_URL}
+      PORT: ${PORT}
+      DEFAULT_LIMIT: ${DEFAULT_LIMIT}
+
   db:
     image: mongodb/mongodb-community-server
+    container_name: mongo-poke
     restart: always
     ports:
       - 27017:27017

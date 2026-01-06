@@ -21,11 +21,18 @@ $ npm i -g @nest/cli
 ```bash
 $ docker-compose up -d
 ```
-5. Reconstruir la BD con la semilla
+5. Clonar el archivo __.env.template__ y renombrar la capia __.env__
+
+6. Llenar las cariables de entorno definidas en __.env__
+
+7. Reconstruir la BD con la semilla
 ```bash
 http://localhost:3000/api/v2/seed
 ```
-
+8. Ejecutar la aplicacion en dev
+```bash
+$ npm run start:dev
+```
 ## Stack usado
 
 * MongoDB
